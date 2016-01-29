@@ -314,21 +314,34 @@ module Vanity
           return
         end
 
-        h = {}
-        params[:v].split(',').each do |pair|
-          exp_id, answer = pair.split('=')
-          exp = Vanity.playground.experiment(exp_id.to_s.to_sym) rescue nil
-          answer = answer.to_i
+        choice_params = params[:v].split(',')
+        choices       = choice_params.map { |p| experiment_and_alternative(p) }
 
-          if !exp || !exp.alternatives[answer]
-            render :status => 404, :nothing => true
-            return
-          end
-          h[exp] = exp.alternatives[answer].value
+        if choices.any? { |experiment, alternative| !(experiment && alternative) }
+          render :status => 404, :nothing => true
+          return
         end
 
-        h.each{ |e,a| e.chooses(a, request) }
+        choices.each do |experiment, alternative|
+          add_participant_choice(experiment, alternative)
+        end
+
         render :status => 200, :nothing => true
+      end
+
+      private
+
+      def experiment_and_alternative(experiment_param)
+        exp_id, answer = experiment_param.split('=')
+        exp            = Vanity.playground.experiment(exp_id.to_s.to_sym) rescue nil
+        answer         = answer.to_i
+        alternative    = exp.alternatives[answer]
+
+        [exp, alternative]
+      end
+
+      def add_participant_choice(experiment, alternative)
+        experiment.chooses(alternative.value, request)
       end
     end
 
