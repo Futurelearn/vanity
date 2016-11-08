@@ -511,6 +511,20 @@ module Vanity
         self
       end
 
+      # # clears all collected data for the experiment
+      # def reset
+      #   if @playground.collecting?
+      #     connection.destroy_experiment(@id)
+      #     connection.set_experiment_created_at(@id, Time.now)
+      #     @outcome = @completed_at = nil
+      #   else
+      #     @showing = nil
+      #   end
+
+      #   self
+      # end
+
+
       # Set up tracking for metrics and ensure that the attributes of the ab_test
       # are valid (e.g. has alternatives, has a default, has metrics).
       # If collecting, this method will also store this experiment into the db.
