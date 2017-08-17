@@ -250,6 +250,7 @@ module Vanity
 
       def vanity_js
         return if Vanity.context.vanity_active_experiments.nil? || Vanity.context.vanity_active_experiments.empty?
+
         javascript_tag do
           render :file => Vanity.template("_vanity"), :formats => [:js]
         end
@@ -315,8 +316,9 @@ module Vanity
     module AddParticipant
       # JS callback action used by vanity_js
       def add_participant
+
         if params[:v].nil?
-          render :status => 404, :nothing => true
+          head 404
           return
         end
 
@@ -327,14 +329,14 @@ module Vanity
           answer = answer.to_i
 
           if !exp || !exp.alternatives[answer]
-            render :status => 404, :nothing => true
+            head 404
             return
           end
           h[exp] = exp.alternatives[answer].value
         end
 
         h.each{ |e,a| e.chooses(a, request) }
-        render :status => 200, :nothing => true
+        head 200
       end
     end
 
