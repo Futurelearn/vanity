@@ -22,12 +22,12 @@
       <% if experiments_persisted %>
         <% if experiments.present? %>
           <h2><%= I18n.t 'vanity.experiments' %></h2>
-          <%= render :file=>Vanity.template("_experiments"), :locals=>{:experiments=>experiments} %>
+          <%= render :file=>Vanity.template("_experiments.erb"), :locals=>{:experiments=>experiments} %>
         <% end %>
 
         <% unless metrics.empty? %>
           <h2><%= I18n.t 'vanity.metrics' %></h2>
-          <%= render :file=>Vanity.template("_metrics"), :locals=>{:metrics=>metrics, :experiments=>experiments} %>
+          <%= render :file=>Vanity.template("_metrics.erb"), :locals=>{:metrics=>metrics, :experiments=>experiments} %>
         <% end %>
       <% else %>
         <div class="alert persistance">
