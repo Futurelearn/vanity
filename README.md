@@ -1,3 +1,7 @@
+**Note: we are [no longer using Vanity](https://github.com/futurelearn/futurelearn/pull/8695), so this repo is now archived and read-only.**
+
+---
+
 # Vanity
 [![Build
 Status](https://travis-ci.org/assaf/vanity.svg?branch=master)](https://travis-ci.org/assaf/vanity)
